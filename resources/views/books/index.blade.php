@@ -2,6 +2,17 @@
 
 @section('content')
     <div class="m-5">
+        <div class="bg-blue-400 flex justify-between p-3 rounded-md">
+            <h1 class="text-xl font-medium">Filter Books</h1>
+            <form action="{{ url('/search') }}" method="GET">
+                <input type="text" name="author" placeholder="Book author" value="{{ request('author') }}">
+                <input type="date" name="published_date" value="{{ request('published_date') }}">
+                
+            
+                <button type="submit">Filter</button>
+            </form>
+            
+        </div>
         <div class="flex justify-between mx-3">
             <h1 class="text-2xl my-5">Total Books Present</h1>
             @if (session('error'))
@@ -15,7 +26,7 @@
             <div class="border border-gray-800 p-5 rounded-md shadow-md mb-4">
                 <h1 class="text-2xl font-semibold mb-2 w-1/3"><span class="text-base font-normal">Author:</span> {{ $book->author }}</h1>
                 <h1 class="text-2xl font-semibold mb-2"><span class="text-base font-normal">Published:</span> {{ $book->published_date }}</h1>
-                <h1 class="text-2xl font-semibold mb-2"><span class="text-base font-normal">Publisher:</span> {{ $book->publisherUser->name }}</h1>
+                {{ $book->publisherUser ? $book->publisherUser->name : 'No Publisher' }}
                 <form action="/rent-book" method="POST">
                     @csrf
                     <input type="hidden" name="bookId" value="{{ $book->id }}">

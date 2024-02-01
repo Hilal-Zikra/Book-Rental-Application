@@ -54,4 +54,37 @@ class BookController extends Controller
         return redirect('/profile');
     }
 
+    public function checkRent()
+    {
+        $retend_books = Book::where('rented', 1)->get();
+
+        $books_counter = 0;
+
+        foreach($retend_books as $book)
+        {
+            $rented_at = $book->rented_at;
+            $rented_at = Carbon::parse($rented_at);
+            $now = Carbon::now();
+            $diff = $now->diffInDays($rented_at);
+
+            if($diff >= 3)
+            {
+                // Here first we find user and then send an email
+                $books_counter++;
+            }
+            
+        }   
+
+        // Here we will return a view with the number of books that are overdue
+    }
+
+    public function search(Request $request)
+    {
+        $books = [];
+        $books = Book::where('author', 'LIKE', '%' . $request->author . '%')->orWhere('published_date', $request->published_date)->paginate(2);
+
+        // dd($books);
+        return view('books.search', compact('books'));
+    }
+
 }
