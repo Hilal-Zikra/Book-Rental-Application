@@ -29,5 +29,6 @@ Route::post('/logout', [UserController::class, 'logout'])->name('logout');
 
 Route::get('/books', [BookController::class, 'index'])->name('book');
 Route::post('/rent-book', [BookController::class, 'rentBook'])->name('rent-book');
+Route::post('/return-book', [BookController::class,'returnBook'])->name('return-book');
 
 Route::get('/profile', [UserController::class, 'profile'])->name('profile');

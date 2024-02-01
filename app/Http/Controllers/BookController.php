@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class BookController extends Controller
@@ -35,6 +36,7 @@ class BookController extends Controller
 
         $book->rented = 1;
         $book->rented_by = auth()->user()->id;
+        $book->rented_at = Carbon::now();
         $book->save();
 
         return redirect('/profile');
@@ -42,7 +44,14 @@ class BookController extends Controller
 
     public function returnBook(Request $request)
     {
-        
+        $book = Book::find($request->book_id);
+
+        $book->rented = 0;
+        $book->rented_by = null;
+        $book->rented_at = null;
+        $book->save();
+
+        return redirect('/profile');
     }
 
 }

@@ -20,8 +20,12 @@
             <div class="border border-gray-800 p-5 rounded-md">
                 <h1 class="text-xl"><span class="text-base">Author:</span> {{ $book->author }}</h1>
                 <h1 class="text-xl"><span class="text-base">Published:</span> {{ $book->published_date }}</h1>
-                <h1 class="text-xl"><span class="text-base">Publisher:</span> {{ $book->publisher }}</h1>
-                <button class="py-2 px-3 rounded-md my-2 bg-green-600 text-white">Return Book</button>
+                <h1 class="text-xl"><span class="text-base">Publisher:</span> {{ $book->publisherUser->name }}</h1>
+                <form action="/return-book" method="POST">
+                    @csrf
+                    <input type="hidden" name="book_id" value="{{ $book->id }}">
+                    <button class="py-2 px-3 rounded-md my-2 bg-yellow-400 font-bold">Return Book</button>
+                </form>
             </div>
         @endforeach
     </div>

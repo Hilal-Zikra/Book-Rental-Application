@@ -85,7 +85,7 @@ class UserController extends Controller
     public function profile()
     {
         $user = auth()->user();
-        $books = \App\Models\Book::where('rented_by', $user->id)->get();
+        $books = \App\Models\Book::with('publisherUser')->where('rented_by', $user->id)->get();
         
         return view('user.profile', compact('user', 'books'));
     }
