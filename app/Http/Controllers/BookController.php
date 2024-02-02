@@ -82,9 +82,7 @@ class BookController extends Controller
             }
             
         }   
-        return response()->json(['message' => 'Email notification sent']);
-
-        // Here we will return a view with the number of books that are overdue
+        return "<h1>". $books_counter .": Books Exceeded Time Limit. And emails are send to them</h1>";
     }
 
     public function search(Request $request)
