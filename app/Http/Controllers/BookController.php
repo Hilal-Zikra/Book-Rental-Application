@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Book;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use App\Notifications\EmailNotification;
+use Illuminate\Support\Facades\Notification;
 
 class BookController extends Controller
 {
@@ -69,11 +71,18 @@ class BookController extends Controller
 
             if($diff >= 3)
             {
-                // Here first we find user and then send an email
+                $data = "Kindly return the book";
+
+                $user = \App\Models\User::where('id', $book->rented_by)->first();
+
+                Notification::send($user, new EmailNotification($data));
+
+               
                 $books_counter++;
             }
             
         }   
+        return response()->json(['message' => 'Email notification sent']);
 
         // Here we will return a view with the number of books that are overdue
     }
